@@ -139,8 +139,9 @@ class ResourceController extends FOSRestController
                 'createPaginator',
                 array($criteria, $sorting)
             );
+            $limit = ($request->get('limit') != null) ? $request->get('limit') : $this->config->getPaginationMaxPerPage();
             $resources->setCurrentPage($request->get('page', 1), true, true);
-            $resources->setMaxPerPage($this->config->getPaginationMaxPerPage());
+            $resources->setMaxPerPage($limit);
 
             if ($this->config->isApiRequest()) {
                 $resources = $this->getPagerfantaFactory()->createRepresentation(
